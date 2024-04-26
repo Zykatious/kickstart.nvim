@@ -11,6 +11,27 @@ return {
 
     { 'folke/neodev.nvim', opts = {} },
   },
+  opts = {
+    servers = { tsserver = {}, eslint = {} },
+    setup = {
+      eslint = function()
+        require('lazyvim.util').lsp.on_attach(function(client)
+          if client.name == 'eslint' then
+            client.server_capabilities.documentFormattingProvider = false
+          elseif client.name == 'tsserver' then
+            client.server_capabilities.documentFormattingProvider = false
+          end
+        end)
+        require('lspconfig').tsserver.setup {
+          init_options = {
+            preferences = {
+              disableSuggestions = true,
+            },
+          },
+        }
+      end,
+    },
+  },
   config = function()
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
