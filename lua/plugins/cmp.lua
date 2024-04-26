@@ -34,7 +34,7 @@ return {
           -- Select the [p]revious item
           ['<C-p>'] = cmp.mapping.select_prev_item(),
           -- Tab Completion
-          ['<Tab>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.confirm { select = false },
           -- Enter Completion on selected items
           ['<CR>'] = function(fallback)
             if cmp.get_active_entry() then
