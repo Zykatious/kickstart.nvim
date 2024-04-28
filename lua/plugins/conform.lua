@@ -1,18 +1,40 @@
 return {
   'stevearc/conform.nvim',
-  opts = {
-    notify_on_error = false,
-    format_on_save = function(bufnr)
-      local disable_filetypes = { c = true, cpp = true }
-      return {
-        timeout_ms = 500,
-        lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+  event = { 'BufReadPre', 'BufNewFile' },
+  config = function()
+    local conform = require 'conform'
+
+    conform.setup {
+      formatters_by_ft = {
+        javascript = { 'prettier' },
+        typescript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        svelte = { 'prettier' },
+        css = { 'prettier' },
+        html = { 'prettier' },
+        json = { 'prettier' },
+        yaml = { 'prettier' },
+        markdown = { 'prettier' },
+        graphql = { 'prettier' },
+        vue = { 'prettier' },
+        liquid = { 'prettier' },
+        lua = { 'stylua' },
+        python = { 'isort', 'black' },
+      },
+      format_on_save = {
+        lsp_fallback = true,
+        async = false,
+        timeout_ms = 1000,
+      },
+    }
+
+    vim.keymap.set({ 'n', 'v' }, '<leader>df', function()
+      conform.format {
+        lsp_fallback = true,
+        async = false,
+        timeout_ms = 1000,
       }
-    end,
-    formatters_by_ft = {
-      lua = { 'stylua' },
-      javascript = { { 'prettierd', 'prettier' } },
-      vue = { { 'prettierd', 'prettier' } },
-    },
-  },
+    end, { desc = '[F]ormat Document' })
+  end,
 }
