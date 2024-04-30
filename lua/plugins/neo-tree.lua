@@ -35,9 +35,6 @@ return {
       width = 35,
       mappings = {
         ['<space>'] = 'none',
-        ['Y'] = {
-          desc = 'Copy Path to Clipboard',
-        },
         ['O'] = {
           function(state)
             require('lazy.util').open(state.tree:get_node().path, { system = true })
