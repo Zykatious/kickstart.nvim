@@ -5,6 +5,14 @@ return {
       'AndreM222/copilot-lualine',
     },
     config = function()
+      local function show_macro_recording()
+        local recording_register = vim.fn.reg_recording()
+        if recording_register == '' then
+          return ''
+        else
+          return 'Recording @' .. recording_register
+        end
+      end
       require('lualine').setup {
         options = {
           icons_enabled = true,
@@ -23,6 +31,10 @@ return {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
               symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
+            },
+            {
+              'macro-recording',
+              fmt = show_macro_recording,
             },
           },
           lualine_c = { 'filename' },
