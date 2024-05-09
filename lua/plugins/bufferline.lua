@@ -1,7 +1,6 @@
 return {
   {
     'akinsho/bufferline.nvim',
-    version = '*',
     event = 'VeryLazy',
     keys = {
       { '<leader>bl', '<Cmd>BufferLineCloseLeft<CR>', desc = 'Delete Buffers to the [L]eft' },
@@ -9,6 +8,7 @@ return {
       { '<leader>bo', '<Cmd>BufferLineCloseOthers<CR>', desc = 'Delete [O]ther Buffers' },
       { '<S-h>', '<cmd>BufferLineCyclePrev<cr>', desc = 'Prev Buffer' },
       { '<S-l>', '<cmd>BufferLineCycleNext<cr>', desc = 'Next Buffer' },
+      { '<leader>bn', '<cmd>enew<cr>', desc = '[N]ew File' },
     },
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
