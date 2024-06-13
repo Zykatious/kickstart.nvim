@@ -12,7 +12,7 @@ return {
       '<leader>e',
       function()
         if vim.bo.filetype == 'neo-tree' then
-          vim.cmd.wincmd 'p'
+          vim.cmd.Neotree 'toggle'
         else
           vim.cmd.Neotree 'focus'
         end

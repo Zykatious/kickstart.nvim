@@ -1,11 +1,12 @@
 return {
   {
     'akinsho/bufferline.nvim',
+    version = '*',
     event = 'VeryLazy',
     keys = {
-      { '<leader>bl', '<Cmd>BufferLineCloseLeft<CR>', desc = 'Delete Buffers to the [L]eft' },
-      { '<leader>br', '<Cmd>BufferLineCloseRight<CR>', desc = 'Delete Buffers to the [R]ight' },
-      { '<leader>bo', '<Cmd>BufferLineCloseOthers<CR>', desc = 'Delete [O]ther Buffers' },
+      { '<leader>bl', '<cmd>BufferLineCloseLeft<CR>', desc = 'Delete Buffers to the [L]eft' },
+      { '<leader>br', '<cmd>BufferLineCloseRight<CR>', desc = 'Delete Buffers to the [R]ight' },
+      { '<leader>bo', '<cmd>BufferLineCloseOthers<CR>', desc = 'Delete [O]ther Buffers' },
       { '<S-h>', '<cmd>BufferLineCyclePrev<cr>', desc = 'Prev Buffer' },
       { '<S-l>', '<cmd>BufferLineCycleNext<cr>', desc = 'Next Buffer' },
       { '<leader>bn', '<cmd>enew<cr>', desc = '[N]ew File' },
@@ -15,9 +16,19 @@ return {
       vim.opt.termguicolors = true
       require('bufferline').setup {
         options = {
-          middle_mouse_command = 'bdelete %d',
+          close_command = function(n)
+            require('mini.bufremove').delete(n, false)
+          end,
+          right_mouse_command = function(n)
+            require('mini.bufremove').delete(n, false)
+          end,
           diagnostics = 'nvim_lsp',
           always_show_bufferline = false,
+          diagnostics_indicator = function(_, _, diag)
+            local icons = { Error = '󰅙', Info = '󰋼', Hint = '󰌵', Warn = '' }
+            local ret = (diag.error and icons.Error .. diag.error .. ' ' or '') .. (diag.warning and icons.Warn .. diag.warning or '')
+            return vim.trim(ret)
+          end,
           offsets = {
             {
               filetype = 'neo-tree',
